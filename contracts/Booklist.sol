@@ -14,6 +14,7 @@ contract Booklist {
     mapping(uint256 => address) bookToOwner;
 
     event AddBook(address bookRecipient, uint bookId);
+    event SetFinished(uint bookId, bool isCompleted);
 
     function addBook(
         string memory name,
@@ -31,21 +32,35 @@ contract Booklist {
         return getBookList(true);
     }
 
+    function getUnfinishedBook() external view returns (Book[] memory) {
+        return getBookList(false);
+    }
+
+    function setCompleted(uint bookId, bool isCompleted) external {
+        require(
+            bookToOwner[bookId] == msg.sender,
+            "Caller is not the owner of the book"
+        );
+        bookList[bookId].isCompleted = isCompleted;
+        emit SetFinished(bookId, isCompleted);
+    }
+
     function getBookList(bool finished) private view returns (Book[] memory) {
         Book[] memory temp = new Book[](bookList.length);
         uint counter = 0;
-        for (uint index = 0; index < bookList.length; index++) {
+        for (uint i = 0; i < bookList.length; i++) {
             if (
-                bookToOwner[index] == msg.sender &&
-                bookList[index].isCompleted == finished
+                bookToOwner[i] == msg.sender &&
+                bookList[i].isCompleted == finished
             ) {
-                temp[counter] = bookList[index];
+                temp[counter] = bookList[i];
                 counter++;
             }
         }
+
         Book[] memory result = new Book[](counter);
-        for (uint index = 0; index < counter; index++) {
-            result[index] = temp[index];
+        for (uint i = 0; i < counter; i++) {
+            result[i] = temp[i];
         }
         return result;
     }

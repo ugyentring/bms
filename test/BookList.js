@@ -2,10 +2,10 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
+  return Math.floor(Math.random() * (min - max)) + min;
 }
 
-describe("Booklist Contract", function () {
+describe("BookList Contract", function () {
   let Booklist;
   let booklist;
   let owner;
@@ -40,10 +40,11 @@ describe("Booklist Contract", function () {
     unfinishedBooklist = [];
     finishedBooklist = [];
 
-    for (let i = 0; i < NUM_FINISHED_BOOK; i++) {
+    for (let i = 0; i < NUM_UNFINISHED_BOOK; i++) {
       let book = {
         name: getRandomInt(1, 1000).toString(),
-        year: getRandomInt(1800, 2021),
+        year: getRandomInt(1800, 2024),
+        author: getRandomInt(1, 1000).toString(),
         isCompleted: false,
       };
       await booklist.addBook(
@@ -58,7 +59,7 @@ describe("Booklist Contract", function () {
     for (let i = 0; i < NUM_FINISHED_BOOK; i++) {
       let book = {
         name: getRandomInt(1, 1000).toString(),
-        year: getRandomInt(1800, 2021),
+        year: getRandomInt(1800, 2024),
         author: getRandomInt(1, 1000).toString(),
         isCompleted: true,
       };
@@ -73,10 +74,10 @@ describe("Booklist Contract", function () {
   });
 
   describe("Add Book", function () {
-    it("should emit addbook event", async function () {
+    it("it should emit addBook event", async function () {
       let book = {
         name: getRandomInt(1, 1000).toString(),
-        year: getRandomInt(1800, 2021),
+        year: getRandomInt(1800, 2024),
         author: getRandomInt(1, 1000).toString(),
         isCompleted: false,
       };
@@ -94,25 +95,47 @@ describe("Booklist Contract", function () {
   });
 
   describe("Get Book", function () {
-    it("Should return the correct unfinished books", async function () {
+    it("it should return the correct finished books", async function () {
       const booksFromChain = await booklist.getUnfinishedBook();
       expect(booksFromChain.length).to.equal(NUM_UNFINISHED_BOOK);
       verifyBooklist(booksFromChain, unfinishedBooklist);
     });
-    it("Should return the correct finished books", async function () {
+    it("should return the correct finished books", async function () {
       const booksFromChain = await booklist.getFinishedBook();
       expect(booksFromChain.length).to.equal(NUM_FINISHED_BOOK);
       verifyBooklist(booksFromChain, finishedBooklist);
     });
+    it("Returns empty when there are no unfinished books", async function () {
+      for (let i = 0; i < NUM_UNFINISHED_BOOK; i++) {
+        await booklist.setCompleted(i, true);
+      }
+      const booksFromChain = await booklist.getUnfinishedBook();
+      expect(booksFromChain.length).to.equal(0);
+    });
   });
-
   describe("Set Completed", function () {
     it("Should emit setFinished event", async function () {
       const BOOK_ID = 0;
       const BOOK_FINISHED = true;
       await expect(booklist.setCompleted(BOOK_ID, BOOK_FINISHED))
-        .to.emit(booklist, "setFinished")
+        .to.emit(booklist, "SetFinished")
         .withArgs(BOOK_ID, BOOK_FINISHED);
+    });
+  });
+
+  describe("BookList Contract", function () {
+    let booklist;
+
+    beforeEach(async function () {
+      const Booklist = await ethers.getContractFactory("Booklist");
+      booklist = await Booklist.deploy();
+    });
+
+    describe("Get Unfinished Books with None Available", function () {
+      it("should return an empty array when there are no unfinished books", async function () {
+        const unfinishedBooksFromChain = await booklist.getUnfinishedBook();
+        expect(unfinishedBooksFromChain.length).to.equal(0);
+      });
     });
   });
 });
