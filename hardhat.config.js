@@ -7,6 +7,10 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   }
 });
 /** @type import('hardhat/config').HardhatUserConfig */
+
+const sepolia_url = process.env.sepolia_url;
+const private_key = process.env.private_key;
+
 module.exports = {
   solidity: "0.8.24",
   settings: {
@@ -17,10 +21,8 @@ module.exports = {
   },
   networks: {
     sepolia: {
-      url: "https://eth-sepolia.g.alchemy.com/v2/pz7YIPn0BD3oPxcmwyVIBGeelgeEM7WW",
-      accounts: [
-        "2669ce15f01dba9b4251411f4f76ed2b30ead2f0b6fed9367b1332ad6669ff9d",
-      ],
+      url: sepolia_url,
+      accounts: [private_key],
     },
   },
 };
