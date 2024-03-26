@@ -8,6 +8,12 @@ function App() {
 
   useEffect(() => {
     const template = async () => {
+      //error handling with the users without metamask
+      if (window.ethereum === undefined) {
+        alert("Metmask is not installed. Please install it to continue");
+        return;
+      }
+
       const contractAddress = "0xf31d48A55a18756D18848602c5d96Af8d0563027";
       const contractABI = abi.abi;
 
