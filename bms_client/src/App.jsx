@@ -3,6 +3,10 @@ import "./App.css";
 import abi from "./contractJSON/Booklist.json";
 import { ethers } from "ethers";
 
+import AddBook from "./components/AddBook";
+import AddedList from "./components/AddedList";
+import banner from "./banner.jpg";
+
 function App() {
   const [account, setAccount] = useState("Not connected");
   const [state, setState] = useState({
@@ -26,6 +30,11 @@ function App() {
         const accounts = await ethereum.request({
           method: "eth_requestAccounts",
         });
+
+        window.ethereum.on("Account Changed", () => {
+          window.location.reload();
+        });
+
         setAccount(accounts[0]);
 
         const provider = new ethers.providers.Web3Provider(ethereum);
@@ -45,11 +54,22 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Account: {account}</p>
-      </header>
-    </div>
+    <>
+      <div style={{ backgroundColor: "#cacfcc5f", height: "100%" }}>
+        <img src={banner} className="img-fluid" alt="image" width="100%" />
+        <p
+          className="text-muted lead"
+          style={{ marginTop: "10px", marginLeft: "5px" }}
+        >
+          Connected account: {account}
+        </p>
+      </div>
+
+      <div className="container">
+        <AddBook state={state} />
+        <AddedList state={state} />
+      </div>
+    </>
   );
 }
 
