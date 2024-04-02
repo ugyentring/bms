@@ -38,7 +38,6 @@ function App() {
         console.log(contract);
         setState({ provider, signer, contract });
       } catch (error) {
-        console.error("An error occurred:", error);
         alert("An error occurred, please try again.");
       }
     };
