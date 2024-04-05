@@ -23,7 +23,7 @@ function App() {
       }
 
       try {
-        const contractAddress = "0x73263A167348f3d2f5da835cFa1DF15be1a56ec0";
+        const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
         const contractABI = abi.abi;
 
         const { ethereum } = window;
@@ -55,7 +55,10 @@ function App() {
 
   return (
     <>
-      <div style={{ backgroundColor: "#cacfcc5f", height: "100%" }}>
+      <div
+        style={{ backgroundColor: "#cacfcc5f", height: "100%" }}
+        className="big-div"
+      >
         <img src={banner} className="img-fluid" alt="image" width="100%" />
         <p
           className="text-muted lead"

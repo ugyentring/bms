@@ -30,43 +30,23 @@ contract Booklist {
     }
 
     function getFinishedBook() external view returns (Book[] memory) {
-        return getBookList(true); 
+        return getBookList(true);
     }
 
     function getUnfinishedBook() external view returns (Book[] memory) {
-        return getBookList(false); 
+        return getBookList(false);
     }
 
     function setCompleted(uint bookId, bool isCompleted) external {
         require(
-            bookToOwner[bookId] == msg.sender, 
+            bookToOwner[bookId] == msg.sender,
             "Caller is not the owner of the book"
         );
-        bookList[bookId].isCompleted = isCompleted; 
+        bookList[bookId].isCompleted = isCompleted;
         emit SetFinished(bookId, isCompleted);
-
     }
 
-    function getAllBooks() external view returns (Book[] memory) {
-        uint ownerBookCount = 0;
-        for (uint i = 0; i < bookList.length; i++) {
-            if (bookToOwner[i] == msg.sender) {
-                ownerBookCount++;
-            }
-        }
-
-        Book[] memory tempBooks = new Book[](ownerBookCount);
-        uint counter = 0;
-        for (uint i = 0; i < bookList.length; i++) {
-            if (bookToOwner[i] == msg.sender) {
-                tempBooks[counter] = bookList[i];
-                counter++;
-            }
-        }
-        return tempBooks;
-    }
-
-    function getBookList(bool finished) private view returns (Book[] memory) {
+    function getBookList(bool finished) public view returns (Book[] memory) {
         uint count = 0;
         for (uint i = 0; i < bookList.length; i++) {
             if (

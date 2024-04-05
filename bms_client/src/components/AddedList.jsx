@@ -7,7 +7,7 @@ const AddedList = ({ state }) => {
   useEffect(() => {
     const listDetails = async () => {
       try {
-        const lists = await contract.getAllBooks();
+        const lists = await contract.getBookList(true);
         setLists(lists);
         console.log(lists);
       } catch (error) {
