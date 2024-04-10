@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 const AddedList = ({ state }) => {
   const [lists, setLists] = useState([]);
+  const [readCount, setReadCount] = useState(0); // State to keep track of read books
   const { contract } = state;
 
   useEffect(() => {
@@ -13,9 +14,9 @@ const AddedList = ({ state }) => {
           ...book,
           id: book.id.toString(),
           year: book.year.toNumber(),
+          isRead: false, // Initially, books are not read
         }));
         setLists(formattedLists);
-        console.log(formattedLists);
       } catch (error) {
         console.error("Error fetching book list:", error);
       }
@@ -25,24 +26,35 @@ const AddedList = ({ state }) => {
     }
   }, [contract]);
 
+  // Function to toggle the read status of a book
+  const handleMarkAsRead = (index) => {
+    const newLists = [...lists];
+    newLists[index].isRead = !newLists[index].isRead;
+    setLists(newLists);
+    // Update the read count based on the read status
+    setReadCount(newLists.filter((book) => book.isRead).length);
+  };
+
   return (
     <div className="container-fluid" style={{ marginTop: "50px" }}>
       <h3
-        style={{
-          textAlign: "center",
-          marginTop: "20px",
-          marginBottom: "100px",
-        }}
+        style={{ textAlign: "center", marginTop: "20px", marginBottom: "20px" }}
       >
         List of Books Added!
       </h3>
+      <h4 style={{ textAlign: "center", marginBottom: "30px" }}>
+        Books Read: {readCount}
+      </h4>
       {lists.map((book, index) => (
-        <div key={index}>
+        <div key={index} style={{ marginBottom: "10px" }}>
           <p>Id: {book.id}</p>
           <p>Name: {book.name}</p>
           <p>Year: {book.year}</p>
           <p>Author: {book.author}</p>
-          <br />
+          <button onClick={() => handleMarkAsRead(index)}>
+            Mark as {book.isRead ? "Unread" : "Read"}
+          </button>
+          <hr />
         </div>
       ))}
     </div>
