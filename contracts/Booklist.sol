@@ -37,6 +37,10 @@ contract Booklist {
         return getBookList(false);
     }
 
+    function getAllBooks() external view returns (Book[] memory) {
+        return bookList;
+    }
+
     function setCompleted(uint bookId, bool isCompleted) external {
         require(
             bookToOwner[bookId] == msg.sender,

@@ -23,7 +23,7 @@ function App() {
       }
 
       try {
-        const contractAddress = "0xBD673426C097Ad8871C12F0fB92ef2bc9a016689";
+        const contractAddress = " 0x712FA1d07e9c9827e8C941648963Ff957D7Ca687";
         const contractABI = abi.abi;
 
         const { ethereum } = window;

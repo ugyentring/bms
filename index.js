@@ -15,10 +15,11 @@ const app = express();
 app.use(express.json());
 
 // Get all books
+//http://localhost:5000/books
 app.get("/books", async (req, res) => {
   try {
-    const books = await contractInstance.getBookList(true);
-    res.send(books);
+    const allBooks = await contractInstance.getAllBooks();
+    res.json(allBooks);
   } catch (error) {
     console.log("Error fetching all books", error);
     res.status(500).send("Error fetching all books");
@@ -26,10 +27,11 @@ app.get("/books", async (req, res) => {
 });
 
 // Get finished books
+// http://localhost:5000/books/finished
 app.get("/books/finished", async (req, res) => {
   try {
     const books = await contractInstance.getFinishedBook();
-    res.send(books);
+    res.json(books);
   } catch (error) {
     console.log("Error fetching finished books", error);
     res.status(500).send("Error fetching finished books");
@@ -37,40 +39,33 @@ app.get("/books/finished", async (req, res) => {
 });
 
 // Get unfinished books
+// http://localhost:5000/books/unfinished
 app.get("/books/unfinished", async (req, res) => {
   try {
     const books = await contractInstance.getUnfinishedBook();
-    res.send(books);
+    res.json(books);
   } catch (error) {
     console.log("Error fetching unfinished books", error);
     res.status(500).send("Error fetching unfinished books");
   }
 });
 
-// Add a new book
+// Add a new book 
+// http://localhost:5000/books
 app.post("/books", async (req, res) => {
   const { name, year, author, isCompleted } = req.body;
 
   try {
-    await contractInstance.addBook(name, year, author, isCompleted);
-    res.send("Book added successfully");
+    const newBook = await contractInstance.addBook(
+      name,
+      year,
+      author,
+      isCompleted
+    );
+    res.json(newBook);
   } catch (error) {
     console.log("Error adding book", error);
     res.status(500).send("Error adding book");
-  }
-});
-
-// Update a book's completion status
-app.put("/books/:id", async (req, res) => {
-  const { id } = req.params;
-  const { isCompleted } = req.body;
-
-  try {
-    await contractInstance.setCompleted(id, isCompleted);
-    res.send("Book completion status updated successfully");
-  } catch (error) {
-    console.log("Error updating book completion status", error);
-    res.status(500).send("Error updating book completion status");
   }
 });
 
