@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import PropTypes from "prop-types";
 import "./addbook.css";
 
 const AddBook = ({ state }) => {
@@ -57,6 +57,12 @@ const AddBook = ({ state }) => {
       </form>
     </>
   );
+};
+
+AddBook.propTypes = {
+  state: PropTypes.shape({
+    contract: PropTypes.object.isRequired,
+  }).isRequired,
 };
 
 export default AddBook;

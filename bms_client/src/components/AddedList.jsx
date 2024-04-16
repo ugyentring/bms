@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const AddedList = ({ state }) => {
   const [lists, setLists] = useState([]);
-  const [readCount, setReadCount] = useState(0); // State to keep track of read books
+  const [readCount, setReadCount] = useState(0);
   const { contract } = state;
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const AddedList = ({ state }) => {
           ...book,
           id: book.id.toString(),
           year: book.year.toNumber(),
-          isRead: false, // Initially, books are not read
+          isRead: false,
         }));
         setLists(formattedLists);
       } catch (error) {
