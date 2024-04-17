@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import abi from "./contractJSON/Booklist.json";
 import { ethers } from "ethers";
-
 import AddBook from "./components/AddBook";
 import AddedList from "./components/AddedList";
 import banner from "./banner.jpg";
@@ -23,7 +22,7 @@ function App() {
       }
 
       try {
-        const contractAddress = " 0x712FA1d07e9c9827e8C941648963Ff957D7Ca687";
+        const contractAddress = "0x712FA1d07e9c9827e8C941648963Ff957D7Ca687";
         const contractABI = abi.abi;
 
         const { ethereum } = window;
@@ -69,8 +68,14 @@ function App() {
       </div>
 
       <div className="container">
-        <AddBook state={state} />
-        <AddedList state={state} />
+        {state.contract ? (
+          <>
+            <AddBook state={state} />
+            <AddedList state={state} />
+          </>
+        ) : (
+          <p>Loading contract...</p>
+        )}
       </div>
     </>
   );

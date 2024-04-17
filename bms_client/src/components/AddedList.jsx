@@ -26,12 +26,10 @@ const AddedList = ({ state }) => {
     }
   }, [contract]);
 
-  // Function to toggle the read status of a book
   const handleMarkAsRead = (index) => {
     const newLists = [...lists];
     newLists[index].isRead = !newLists[index].isRead;
     setLists(newLists);
-    // Update the read count based on the read status
     setReadCount(newLists.filter((book) => book.isRead).length);
   };
 

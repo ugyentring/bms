@@ -50,7 +50,23 @@ app.get("/books/unfinished", async (req, res) => {
   }
 });
 
-// Add a new book 
+app.get("/books/:id", async (req, res) => {
+  const bookId = req.params.id;
+
+  try {
+    const book = await ethers.contractInstance.getBookById(bookId);
+    if (book) {
+      req.json(book);
+    } else {
+      res.status(400).send("book not found");
+    }
+  } catch (error) {
+    console.log("error fetching book", error);
+    res.status(500).send("error fetching book");
+  }
+});
+
+// Add a new book
 // http://localhost:5000/books
 app.post("/books", async (req, res) => {
   const { name, year, author, isCompleted } = req.body;
