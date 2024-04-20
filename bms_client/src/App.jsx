@@ -70,6 +70,7 @@ function App() {
       <div className="container">
         {state.contract ? (
           <>
+            <h1 style={{ textAlign: "center" }}>Book Manager</h1>
             <AddBook state={state} />
             <AddedList state={state} />
           </>
