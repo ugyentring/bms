@@ -3,6 +3,7 @@ import "./App.css";
 import abi from "./contractJSON/Smedia.json";
 import { ethers } from "ethers";
 import Post from "./components/Post";
+import GetPost from "./components/GetPost";
 // import Tip from "./components/Tip";
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
           <>
             <h1 style={{ textAlign: "center" }}>Post</h1>
             <Post state={state} />
+            <GetPost state={state}/>
             {/* <Tip state={state} /> */}
           </>
         ) : (
