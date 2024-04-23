@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import abi from "./contractJSON/Booklist.json";
+import abi from "./contractJSON/Smedia.json";
 import { ethers } from "ethers";
-import AddBook from "./components/AddBook";
-import AddedList from "./components/AddedList";
-import banner from "./banner.jpg";
+import Post from "./components/Post";
+// import Tip from "./components/Tip";
 
 function App() {
   const [account, setAccount] = useState("Not connected");
@@ -22,7 +21,7 @@ function App() {
       }
 
       try {
-        const contractAddress = "0x712FA1d07e9c9827e8C941648963Ff957D7Ca687";
+        const contractAddress = "0xE44b3760Aee176321347122BEe2dEDa17409B7B1";
         const contractABI = abi.abi;
 
         const { ethereum } = window;
@@ -58,21 +57,20 @@ function App() {
         style={{ backgroundColor: "#cacfcc5f", height: "100%" }}
         className="big-div"
       >
-        <img src={banner} className="img-fluid" alt="image" width="100%" />
-        <p
+        <button
           className="text-muted lead"
           style={{ marginTop: "10px", marginLeft: "5px" }}
         >
           Connected account: {account}
-        </p>
+        </button>
       </div>
 
       <div className="container">
         {state.contract ? (
           <>
-            <h1 style={{ textAlign: "center" }}>Book Manager</h1>
-            <AddBook state={state} />
-            <AddedList state={state} />
+            <h1 style={{ textAlign: "center" }}>Post</h1>
+            <Post state={state} />
+            {/* <Tip state={state} /> */}
           </>
         ) : (
           <p>Loading contract...</p>
