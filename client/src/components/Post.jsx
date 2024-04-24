@@ -38,7 +38,7 @@ const Post = ({ state }) => {
       await transaction.wait();
       alert("Transaction successful");
       console.log("Transaction done");
-      console.log(file, mediaUrl)
+      console.log(file, mediaUrl);
     } catch (error) {
       console.error("Error in uploading to IPFS or adding post", error);
     }
@@ -46,18 +46,37 @@ const Post = ({ state }) => {
 
   return (
     <>
-      <form onSubmit={handlePost}>
-        <span>Content: </span>
-        <input id="content" />
-        <br />
-        <span>Image</span>
-        <input
-          type="file"
-          id="media"
-          onChange={(e) => setFile(e.target.files[0])}
-        />
-        <br />
-        <button type="submit">Post</button>
+      <form
+        className="bg-gray-300 drop-shadow-xl border border-gray-800 p-3 mt-1"
+        onSubmit={handlePost}
+      >
+        <div className="ml-3 flex flex-col">
+          <span>
+            Content:
+            <input
+              className="w-1/2 px-3 py-9 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-1 my-3 ml-2"
+              id="content"
+              placeholder="How you are feeling.."
+              autoComplete="off"
+            />
+          </span>
+
+          <span>
+            File:
+            <input
+              className="ml-2 outline-none"
+              type="file"
+              id="media"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+          </span>
+          <button
+            className="flex my-2 bg-yellow-500 max-w-20 py-1 px-6 rounded-md font-semibold text-white"
+            type="submit"
+          >
+            Post
+          </button>
+        </div>
       </form>
     </>
   );

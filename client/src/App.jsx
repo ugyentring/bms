@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./App.css";
 import abi from "./contractJSON/Smedia.json";
 import { ethers } from "ethers";
 import Post from "./components/Post";
@@ -54,30 +53,47 @@ function App() {
 
   return (
     <>
-      <div
-        style={{ backgroundColor: "#cacfcc5f", height: "100%" }}
-        className="big-div"
-      >
-        <button
-          className="text-muted lead"
-          style={{ marginTop: "10px", marginLeft: "5px" }}
-        >
-          Connected account: {account}
-        </button>
-      </div>
+      <nav>
+        <div className="bg-green-700 flex justify-between items-center h-24 px-4">
+          <h1 className="font-bold text-white text-3xl">NorbNode</h1>
+          <button className="py-3 px-4 bg-black text-white font-bold rounded-md">
+            {account.length > 8 ? `${account.slice(0, 8)}...` : account}
+          </button>
+        </div>
+      </nav>
 
-      <div className="container">
-        {state.contract ? (
-          <>
-            <h1 style={{ textAlign: "center" }}>Post</h1>
-            <Post state={state} />
-            <GetPost state={state}/>
-            {/* <Tip state={state} /> */}
-          </>
-        ) : (
-          <p>Loading contract...</p>
-        )}
-      </div>
+      <main>
+        <div className="flex flex-row mt-1">
+          {/* leftside code here */}
+          <div
+            style={{ width: "20%", height: "90vh" }}
+            className="bg-gray-600 mx-1 rounded-md shadow-lg"
+          >
+            sidebar
+          </div>
+          {state.contract ? (
+            <>
+              {/* middle side code here */}
+              <div
+                style={{ width: "60%", minHeight: "100vh", overflowY: "auto" }}
+                className="rounded-md mx-2"
+              >
+                <Post state={state} />
+                <GetPost state={state} />
+              </div>
+              {/* ride side code here */}
+              <div
+                style={{ width: "20%", minHeight: "100vh", overflowY: "auto" }}
+                className="bg-gray-700 mx-1 rounded-md"
+              >
+                right side
+              </div>
+            </>
+          ) : (
+            <p>Loading contract...</p>
+          )}
+        </div>
+      </main>
     </>
   );
 }

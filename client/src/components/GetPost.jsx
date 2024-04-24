@@ -11,7 +11,7 @@ const GetPost = ({ state }) => {
       setPosts(
         retrievedPosts.map((post) => ({
           content: post.content,
-          media: `https://gateway.pinata.cloud/ipfs/${post.media}`,
+          media: `${import.meta.env.VITE_GATEWAY_URL}/ipfs/${post.mediaHash}`,
         }))
       );
     };
@@ -25,10 +25,7 @@ const GetPost = ({ state }) => {
       {posts.map((post, index) => (
         <div key={index}>
           <p>{post.content}</p>
-          <img
-            src={post.media} // Corrected to use post.media instead of the entire post object
-            alt="Uploaded to IPFS"
-          />
+          <img src={post.media} alt="Uploaded to IPFS" />
         </div>
       ))}
     </div>
