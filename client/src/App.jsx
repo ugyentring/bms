@@ -63,7 +63,7 @@ function App() {
       </nav>
 
       <main>
-        <div className="flex flex-row mt-1">
+        <div className="flex flex-row mt-1 bg-slate-400">
           {/* leftside code here */}
           <div
             style={{ width: "20%", height: "90vh" }}
