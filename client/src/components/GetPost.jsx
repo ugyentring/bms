@@ -8,29 +8,36 @@ const GetPost = ({ state }) => {
   useEffect(() => {
     const getPosts = async () => {
       const retrievedPosts = await contract.getAllPosts();
-      setPosts(retrievedPosts);
+      setPosts(
+        retrievedPosts.map((post) => ({
+          content: post.content,
+          media: `https://gateway.pinata.cloud/ipfs/${post.media}`,
+        }))
+      );
     };
-    contract && getPosts();
+    if (contract) {
+      getPosts();
+    }
   }, [contract]);
 
   return (
-    <>
-      <div>
-        {posts.map((post) => {
-          <div>
-            <p>{post.postCount}</p>;
-            <p>{post.content}</p>;
-            <p>{post.media}</p>;
-          </div>;
-        })}
-      </div>
-    </>
+    <div>
+      {posts.map((post, index) => (
+        <div key={index}>
+          <p>{post.content}</p>
+          <img
+            src={post.media} // Corrected to use post.media instead of the entire post object
+            alt="Uploaded to IPFS"
+          />
+        </div>
+      ))}
+    </div>
   );
 };
 
 GetPost.propTypes = {
   state: PropTypes.shape({
-    contract: PropTypes.object,
+    contract: PropTypes.object.isRequired,
   }),
 };
 
